@@ -65,13 +65,15 @@ fun AppNavigation(viewModel: RecommendationViewModel) {
             val title = backStackEntry.arguments?.getString("title")
             ChildKategoriScreen(title ?: "Detail", navController, viewModel)
         }
-        composable("detail/{title}/{description}/{image}") { backStackEntry ->
+        composable("detail/{title}/{description}/{alamat}/{image}") { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title")
             val description = backStackEntry.arguments?.getString("description")
+            val alamat = backStackEntry.arguments?.getString("alamat")
             val image = backStackEntry.arguments?.getString("image")?.toIntOrNull()
             DetailScreen(
                 title = title ?: "Detail",
                 description = description ?: "Tidak ada deskripsi",
+                alamat = alamat ?: "Belum ada alamat",
                 image = image ?: 0
             )
         }
@@ -209,7 +211,7 @@ fun ChildKategoriScreen(title: String, navController: NavController, viewModel: 
                             .fillMaxWidth()
                             .padding(12.dp,8.dp)
                             .clickable {
-                                navController.navigate("detail/${item.nama}/${item.deskripsi}/${item.gambar}")
+                                navController.navigate("detail/${item.nama}/${item.deskripsi}/${item.alamat}/${item.gambar}")
                             },
                         elevation = CardDefaults.cardElevation(4.dp)
                     ) {
@@ -247,11 +249,12 @@ fun ChildKategoriScreen(title: String, navController: NavController, viewModel: 
                                     )
                                 )
                                 Text(
-                                    text = item.nama,
+                                    text = item.alamat,
                                     Modifier.padding(10.dp, 0.dp),
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 8.sp,
+                                        lineHeight = 10.sp,
                                         color = hitamabu
                                     )
                                 )
@@ -273,7 +276,7 @@ fun ChildKategoriScreen(title: String, navController: NavController, viewModel: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(title: String, description: String, image: Int) {
+fun DetailScreen(title: String, description: String, alamat: String, image: Int) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("$title", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)) },
@@ -307,6 +310,17 @@ fun DetailScreen(title: String, description: String, image: Int) {
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
+                        color = hitamabu,
+                        textAlign = TextAlign.Center
+                    )
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = alamat,
+                    modifier = Modifier
+                        .padding(5.dp, 0.dp),
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 10.sp,
                         color = hitamabu,
                         textAlign = TextAlign.Center
                     )
@@ -410,7 +424,7 @@ fun WelcomeScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun DetailScreenPreview() {
-    DetailScreen("Jungle Cafe", "Sebuah kedai kopi yang menawarkan suasana hutan tropis dengan berbagai pilihan kopi spesial", R.drawable.jungle)
+    DetailScreen("Jungle Cafe", "Sebuah kedai kopi yang menawarkan suasana hutan tropis dengan berbagai pilihan kopi spesial","Jl. Nusantara, Timbangan, Kecamatan Indralaya Utara, Kabupaten Ogan Ilir, Sumatera Selatan 30862", R.drawable.jungle)
 }
 
 //@Preview(showBackground = true)

@@ -3,6 +3,7 @@ package com.example.recommendedplacesinlayo.model
 data class ItemRecommendation(
     val nama: String,
     val deskripsi: String,
+    val alamat: String,
     val gambar: Int
 )
 
